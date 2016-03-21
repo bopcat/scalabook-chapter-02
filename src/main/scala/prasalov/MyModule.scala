@@ -21,10 +21,19 @@ object MyModule {
     msg.format(name, n, f(n))
   }
 
-  def main(args: Array[String]): Unit =
+  def main(args: Array[String]): Unit = {
     //println(fib(-1))
     //println(formatResult("abs", -42, abs))
-    println(isSorted(Array(), (x: Int, y: Int) => x <= y))
+    //println(isSorted(Array(), (x: Int, y: Int) => x <= y))
+    //println(fib(n) + " " + functFib(n).getOrElse(-1))
+
+    val n = 8
+
+    functFib(n) match {
+      case None => throw new IllegalArgumentException("Fibonacci series are defined only for positive integers!")
+      case Some(i) => println("Fibonacci number of " + n + " is " + i)
+    }
+  }
 
   def factorial(n: Int): Int = {
 
@@ -44,6 +53,11 @@ object MyModule {
 
     if (n < 0) throw new Exception("Fibonacci number's index should be 0 or greater!")
     else _fib(1, 0, 1)
+  }
+
+  def functFib(n: Int): Option[Int] = {
+    if (n < 0) None
+    else Some((0 to n).foldLeft((0, 1, 0))((acc, cur) => (acc._2, acc._1 + acc._2, acc._1))._3)
   }
 
   def isSorted[A](as: Array[A], ordered: (A, A) => Boolean): Boolean = {
